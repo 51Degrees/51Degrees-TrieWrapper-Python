@@ -1,0 +1,34 @@
+Metadata-Version: 1.1
+Name: 51degrees-mobile-detector-trie-wrapper
+Version: 1.0
+Summary: 51Degrees Mobile Detector (C Trie Wrapper).
+Home-page: http://51degrees.mobi
+Author: 51Degrees.mobi
+Author-email: info@51degrees.mobi
+License: MPL2
+Description: 
+        51Degrees Mobile Detector (C Trie Wrapper)
+        ==========================================
+        
+        51Degrees Mobile Detector is a Python wrapper of the C trie-based mobile
+        detection solution by 51Degrees.mobi. Check out http://51degrees.mobi for
+        a detailed description, extra documentation and other useful information.
+        
+        :copyright: (c) 2013 by 51Degrees.mobi, see README.rst for more details.
+        :license: MPL2, see LICENSE.txt for more details.
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries
+Classifier: License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)
+Classifier: Programming Language :: C
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: MacOS :: MacOS X
