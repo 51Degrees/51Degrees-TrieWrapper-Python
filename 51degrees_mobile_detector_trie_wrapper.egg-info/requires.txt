@@ -1,2 +1,0 @@
-distribute
-51degrees-mobile-detector
