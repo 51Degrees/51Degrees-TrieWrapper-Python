@@ -24,7 +24,7 @@ def has_snprintf():
 
     '''
     cc = ccompiler.new_compiler()
-    tmpdir = tempfile.mkdtemp(prefix='51degrees-mobile-detector-trie-wrapper-install-')
+    tmpdir = tempfile.mkdtemp(prefix='51degrees-mobile-detector-v3-trie-wrapper-install-')
     try:
         try:
             source = os.path.join(tmpdir, 'snprintf.c')
@@ -49,18 +49,17 @@ if has_snprintf():
     define_macros.append(('HAVE_SNPRINTF', None))
 
 setup(
-    name='51degrees-mobile-detector-trie-wrapper',
-    version='1.0',
+    name='51degrees-mobile-detector-v3-trie-wrapper',
+    version='3.0',
     author='51Degrees.mobi',
     author_email='info@51degrees.mobi',
     packages=find_packages(),
     include_package_data=True,
     ext_modules=[
-        Extension('_fiftyone_degrees_mobile_detector_trie_wrapper',
+        Extension('_fiftyone_degrees_mobile_detector_v3_trie_wrapper',
             sources=[
                 'wrapper.c',
-                os.path.join('lib', '51Degrees.mobi.c'),
-                os.path.join('lib', 'snprintf', 'snprintf.c'),
+                os.path.join('lib', 'trie', '51Degrees.c')
             ],
             define_macros=define_macros,
             extra_compile_args=[

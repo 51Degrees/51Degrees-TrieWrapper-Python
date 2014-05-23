@@ -5,7 +5,7 @@
  */
 
 #include <Python.h>
-#include "lib/51Degrees.mobi.h"
+#include "lib/trie/51Degrees.h"
 
 #define OUTPUT_BUFFER_LENGTH 50000
 
@@ -23,24 +23,33 @@ static struct module_state _state;
 static PyObject *py_init(PyObject *self, PyObject *args)
 {
     // Input data filename.
-    const char *filename;
+    const char *filePath;
 
     // Input property names.
     const char *properties;
 
     // Parse input arguments: data filename (string) + property names (string).
-    if (!PyArg_ParseTuple(args, "ss", &filename, &properties)) {
+    if (!PyArg_ParseTuple(args, "ss", &filePath, &properties)) {
         return NULL;
     }
+	if (strlen(properties) == 0) {
+		properties = NULL;
+	}
+	struct stat   buffer;   
+  	if (stat (filePath, &buffer) == 0) {
+	    // Init matcher.
+		if (init(filePath, properties) != 0) {
+		    PyErr_SetString(PyExc_RuntimeError, "Failed to initialize C wrapper.");
+		    return NULL;
+		}
 
-    // Init matcher.
-    if (init(filename, properties) != 0) {
-        PyErr_SetString(PyExc_RuntimeError, "Failed to initialize C wrapper.");
-        return NULL;
-    }
-
-    // Done!
-    Py_RETURN_NONE;
+		// Done!
+		Py_RETURN_NONE;
+	}
+	else {
+		PyErr_SetString(PyExc_IOError, "Data file not found.");
+		return NULL;
+	}
 }
 
 static PyObject *py_match(PyObject *self, PyObject *args)
@@ -73,13 +82,13 @@ static PyMethodDef wrapperMethods[] =
 };
 
 #if PY_MAJOR_VERSION >= 3
-static int _fiftyone_degrees_mobile_detector_trie_wrapper_traverse(PyObject *m, visitproc visit, void *arg)
+static int _fiftyone_degrees_mobile_detector_v3_trie_wrapper_traverse(PyObject *m, visitproc visit, void *arg)
 {
     Py_VISIT(GETSTATE(m)->error);
     return 0;
 }
 
-static int _fiftyone_degrees_mobile_detector_trie_wrapper_clear(PyObject *m)
+static int _fiftyone_degrees_mobile_detector_v3_trie_wrapper_clear(PyObject *m)
 {
     Py_CLEAR(GETSTATE(m)->error);
     return 0;
@@ -88,13 +97,13 @@ static int _fiftyone_degrees_mobile_detector_trie_wrapper_clear(PyObject *m)
 static struct PyModuleDef wrapperDefinition =
 {
         PyModuleDef_HEAD_INIT,
-        "_fiftyone_degrees_mobile_detector_trie_wrapper",
+        "_fiftyone_degrees_mobile_detector_v3_trie_wrapper",
         NULL,
         sizeof(struct module_state),
         wrapperMethods,
         NULL,
-        _fiftyone_degrees_mobile_detector_trie_wrapper_traverse,
-        _fiftyone_degrees_mobile_detector_trie_wrapper_clear,
+        _fiftyone_degrees_mobile_detector_v3_trie_wrapper_traverse,
+        _fiftyone_degrees_mobile_detector_v3_trie_wrapper_clear,
         NULL
 };
 
@@ -104,15 +113,15 @@ static struct PyModuleDef wrapperDefinition =
 #endif
 
 #if PY_MAJOR_VERSION >= 3
-PyObject *PyInit__fiftyone_degrees_mobile_detector_trie_wrapper(void)
+PyObject *PyInit__fiftyone_degrees_mobile_detector_v3_trie_wrapper(void)
 #else
-void init_fiftyone_degrees_mobile_detector_trie_wrapper(void)
+void init_fiftyone_degrees_mobile_detector_v3_trie_wrapper(void)
 #endif
 {
 #if PY_MAJOR_VERSION >= 3
     PyObject *module = PyModule_Create(&wrapperDefinition);
 #else
-    PyObject *module = Py_InitModule("_fiftyone_degrees_mobile_detector_trie_wrapper", wrapperMethods);
+    PyObject *module = Py_InitModule("_fiftyone_degrees_mobile_detector_v3_trie_wrapper", wrapperMethods);
 #endif
 
     if (module == NULL) {
@@ -120,7 +129,7 @@ void init_fiftyone_degrees_mobile_detector_trie_wrapper(void)
     }
     struct module_state *st = GETSTATE(module);
 
-    st->error = PyErr_NewException("_fiftyone_degrees_mobile_detector_trie_wrapper.Error", NULL, NULL);
+    st->error = PyErr_NewException("_fiftyone_degrees_mobile_detector_v3_trie_wrapper.Error", NULL, NULL);
     if (st->error == NULL) {
         Py_DECREF(module);
         INITERROR;
