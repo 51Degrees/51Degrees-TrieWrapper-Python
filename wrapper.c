@@ -37,14 +37,24 @@ static PyObject *py_init(PyObject *self, PyObject *args)
 	}
 	struct stat   buffer;   
   	if (stat (filePath, &buffer) == 0) {
-	    // Init matcher.
-		if (init(filePath, properties) != 0) {
-		    PyErr_SetString(PyExc_RuntimeError, "Failed to initialize C wrapper.");
-		    return NULL;
+	    // Init matcher
+		DataSetInitStatus status = init(filePath, properties);
+		switch (status) {
+			case DATA_SET_INIT_STATUS_SUCCESS:
+                Py_RETURN_NONE;
+			case DATA_SET_INIT_STATUS_INSUFFICIENT_MEMORY:
+				PyErr_SetString(PyExc_RuntimeError, "Unable to initialise dataset. There was insufficient memory.");
+				return NULL;
+			case DATA_SET_INIT_STATUS_CORRUPT_DATA:
+				PyErr_SetString(PyExc_RuntimeError, "Unable to initialise dataset. Data file was corrupt. Make sure it is uncompressed.");
+				return NULL;
+			case DATA_SET_INIT_STATUS_INCORRECT_VERSION:
+				PyErr_SetString(PyExc_RuntimeError, "Unable to initialise dataset. The data file was an unsupported version. Make sure you're using the latest data and api.");
+				return NULL;
+			case DATA_SET_INIT_STATUS_FILE_NOT_FOUND:
+				PyErr_SetString(PyExc_RuntimeError, "Unable to initialise dataset.  The data file could not be found.");
+				return NULL;
 		}
-
-		// Done!
-		Py_RETURN_NONE;
 	}
 	else {
 		PyErr_SetString(PyExc_IOError, "Data file not found.");

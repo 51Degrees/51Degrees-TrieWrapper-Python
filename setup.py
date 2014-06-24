@@ -50,9 +50,9 @@ if has_snprintf():
 
 setup(
     name='51degrees-mobile-detector-v3-trie-wrapper',
-    version='3.0',
-    author='51Degrees.mobi',
-    author_email='info@51degrees.mobi',
+    version='3.0.1.1',
+    author='51Degrees.com',
+    author_email='info@51degrees.com',
     packages=find_packages(),
     include_package_data=True,
     ext_modules=[
@@ -67,7 +67,7 @@ setup(
             ],
         ),
     ],
-    url='http://51degrees.mobi',
+    url='http://51degrees.com',
     description='51Degrees Mobile Detector (C Trie Wrapper).',
     long_description=__doc__,
     license='MPL2',
