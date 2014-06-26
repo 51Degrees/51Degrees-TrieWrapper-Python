@@ -20,10 +20,10 @@ This package is available on pip:
 
 DEPENDENCIES
 
-- 51Degrees-Core-Python
-  - This can be found on pip (pip install 51degrees-mobile-detector)
-  - and on GitHub: https://github.com/51Degreesmobi/51Degrees-Core-Python
-
+- 51Degrees-Core-Python. This can be found on pip
+  (pip install 51degrees-mobile-detector) and on GitHub:
+  https://github.com/51Degreesmobi/51Degrees-Core-Python
+  
 API Documentation
 
 For documentation go to https://51degrees.com/Support/Documentation/Python
