@@ -38,7 +38,7 @@ static PyObject *py_init(PyObject *self, PyObject *args)
 	struct stat   buffer;   
   	if (stat (filePath, &buffer) == 0) {
 	    // Init matcher
-		DataSetInitStatus status = init(filePath, properties);
+		fiftyoneDegreesDataSetInitStatus status = fiftyoneDegreesInit(filePath, properties);
 		switch (status) {
 			case DATA_SET_INIT_STATUS_SUCCESS:
                 Py_RETURN_NONE;
@@ -76,7 +76,7 @@ static PyObject *py_match(PyObject *self, PyObject *args)
     }
 
     // Match user agent & fetch properties.
-    if (processDeviceCSV(getDeviceOffset(userAgent), output, OUTPUT_BUFFER_LENGTH) < 0) {
+    if (fiftyoneDegreesProcessDeviceCSV(fiftyoneDegreesGetDeviceOffset(userAgent), output, OUTPUT_BUFFER_LENGTH) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Failed to process device CSV.");
         return NULL;
     } else {
